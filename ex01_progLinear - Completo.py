@@ -24,8 +24,8 @@ with open('filename', 'rU') as f:
 a = np.array(result)
 acao = a[:,0]
 abertura = a[:,2]
-min = a[:,3]
-max = a[:,4]
+mini = a[:,3]
+maxi = a[:,4]
 fechamento = a[:,5]
 vol = a[:,6] 
 #
