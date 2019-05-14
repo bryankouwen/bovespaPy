@@ -16,6 +16,7 @@ np.set_printoptions(suppress=True)
 from scipy.optimize import linprog
 from numpy.linalg import solve
 import bovespaparser.bovespaparser as bvparser
+import ipdb
 #------------------------------------------------------------------------------
 file = raw_input('Insira o caminho completo com arquivo txt com os dados da Bovespa \n')
 
@@ -45,9 +46,9 @@ retorno = (fechamento - abertura)/abertura
 
 # obtendo o risco
 media = (abertura + fechamento + mini + maxi)/4
-Q = (media - abertura)**2 + (media - fechamento)**2 + (media - mini)**2 + (media - maxi)**2
+Q = ((media - abertura)**2 + (media - fechamento)**2 + (media - mini)**2 + (media - maxi)**2)/media
 risco = (Q/3)**0.5
-
+Q= np.around(Q.astype(np.double),2)
 #------------------------------------------------------------------------------
 def resolverPLDesigualdade(c, A_ub, b_ub):
     res = linprog(c, A_ub=A_ub, b_ub=b_ub,
@@ -55,11 +56,13 @@ def resolverPLDesigualdade(c, A_ub, b_ub):
     return res
 #------------------------------------------------------------------------------
 def exemplo01():
-    A_ub = np.array(media)
+    A_ub = np.array([Q])
+# /home/bryan/Downloads/COTAHIST_D30042019.TXT
     # Restriçoes risco e investir 100%
-    b_ub = np.array(risco)
+    b_ub = np.array([0.3])
     #aqui vai ficar oque tem de ser maximizado o retorno r1 r2 r3 etc.
-    c = np.array(retorno)
+    c = np.array([retorno])
+    ipdb.set_trace()
     return c, A_ub, b_ub
 #------------------------------------------------------------------------------
 #Programa Principal
